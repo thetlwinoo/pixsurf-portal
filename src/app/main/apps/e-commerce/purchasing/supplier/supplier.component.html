@@ -1,0 +1,97 @@
+<div id="supplier" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="'/apps/e-commerce/purchasing/suppliers'">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class="supplier-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <!-- <img *ngIf="supplier.images[0]" [src]="supplier.images[0].url">
+            <img *ngIf="!supplier.images[0]" [src]="'assets/images/ecommerce/supplier-image-placeholder.png'"> -->
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          <div class="h2" *ngIf="pageType ==='edit'">
+            {{supplier.supplierName}}
+          </div>
+          <div class="h2" *ngIf="pageType ==='new'">
+            New Supplier
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Supplier Detail</span>
+          </div>
+        </div>
+      </div>
+      <!-- / APP TITLE -->
+
+      <button mat-raised-button class="save-supplier-button mat-white-bg mt-16 mt-sm-0" [disabled]="supplierForm.invalid" *ngIf="pageType ==='new'"
+        (click)="addSupplier()">
+        <span>ADD</span>
+      </button>
+
+      <button mat-raised-button class="save-supplier-button mat-white-bg mt-16 mt-sm-0" [disabled]="supplierForm.invalid || supplierForm.pristine"
+        *ngIf="pageType ==='edit'" (click)="saveSupplier()">
+        <span>SAVE</span>
+      </button>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <form name="supplierForm" [formGroup]="supplierForm" class="supplier w-100-p" fxLayout="column" fxFlex>
+
+          <mat-tab-group>
+
+            <mat-tab label="Basic">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-supplier-basic [group]="supplierForm" [supplier]="supplier" [supplierCategories]="supplierCategories"></px-supplier-basic>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Contact">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-supplier-contact [group]="supplierForm" [supplier]="supplier" [persons]="persons" (primaryContact)="setPrimaryContact($event)"
+                  (alternateContact)="setAlternateContact($event)"></px-supplier-contact>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Bank Information">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-supplier-bank-info [group]="supplierForm" [supplier]="supplier"></px-supplier-bank-info>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Delivery">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-supplier-delivery [group]="supplierForm" [supplier]="supplier" [deliveryMethods]="deliveryMethods" [cities]="cities"></px-supplier-delivery>
+              </div>
+            </mat-tab>
+
+          </mat-tab-group>
+        </form>
+
+      </div>
+      <!-- / CONTENT -->
+
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+</div>

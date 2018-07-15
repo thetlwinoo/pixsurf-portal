@@ -1,0 +1,117 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container cdkColumnDef="checkbox">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let city">
+            <mat-checkbox [(ngModel)]="checkboxes[city.id]" (ngModelChange)="onSelectedChange(city.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- City Name Column -->
+    <ng-container cdkColumnDef="cityName">
+        <mat-header-cell *cdkHeaderCellDef>City Name</mat-header-cell>
+        <mat-cell *cdkCellDef="let city">
+            <p class="text-truncate">{{city.cityName}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- stateProvinceID Column -->
+    <ng-container cdkColumnDef="stateProvinceID">
+        <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>StateProvince</mat-header-cell>
+        <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{city.stateProvinceID.stateProvinceName}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- location Column -->
+    <ng-container cdkColumnDef="location">
+        <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>Location</mat-header-cell>
+        <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{city.location}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- latestRecordedPopulation Column -->
+    <ng-container cdkColumnDef="latestRecordedPopulation">
+        <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>LatestRecordedPopulation</mat-header-cell>
+        <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{city.latestRecordedPopulation}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- lastEditedBy Column -->
+    <ng-container cdkColumnDef="lastEditedBy">
+        <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>LastEditedBy</mat-header-cell>
+        <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-lg>
+            <p class="job-title text-truncate">
+                {{city.lastEditedBy.fullName}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- validFrom Column -->
+    <ng-container cdkColumnDef="validFrom">
+        <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>ValidFrom</mat-header-cell>
+        <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-lg>
+            <p class="company text-truncate">
+                {{city.validFrom | date}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- validTo Column -->
+    <ng-container cdkColumnDef="validTo">
+        <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>ValidTo</mat-header-cell>
+        <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-lg>
+            <p class="company text-truncate">
+                {{city.validTo | date}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container cdkColumnDef="buttons">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let city">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(city.id)" aria-label="Toggle star">
+                    <mat-icon *ngIf="user.starred.includes(city.id)">star</mat-icon>
+                    <mat-icon *ngIf="!user.starred.includes(city.id)">star_outline</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteCity(city)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let city; columns: displayedColumns;"
+             class="city"
+             (click)="editCity(city)"
+             [ngClass]="{'mat-light-blue-50-bg':checkboxes[city.id]}"
+             matRipple
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

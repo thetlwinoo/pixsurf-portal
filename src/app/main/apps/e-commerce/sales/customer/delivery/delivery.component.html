@@ -1,0 +1,26 @@
+<div class="customer-delivery-form" [formGroup]="customerDeliveryForm">
+  <!-- <p> -->
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Delivery Method" formControlName="deliveryMethodID" [(ngModel)]="selectedDeliveryMethodId" (ngModelChange)="onDeliveryMethodChanged($event)">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let deliveryMethod of deliveryMethods" [value]="deliveryMethod._id">
+          {{ deliveryMethod.deliveryMethodName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="deliveryAddress" formControlName="deliveryAddress" placeholder="Delivery Address" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="deliveryRun" formControlName="deliveryRun" placeholder="Delivery Run" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="runPosition" formControlName="runPosition" placeholder="Run Position" required></textarea>
+  </mat-form-field>
+
+</div>

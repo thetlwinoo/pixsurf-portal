@@ -1,0 +1,91 @@
+<div id="customer" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="'/apps/e-commerce/sales/customers'">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class="customer-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <!-- <img *ngIf="customer.images[0]" [src]="customer.images[0].url">
+            <img *ngIf="!customer.images[0]" [src]="'assets/images/ecommerce/customer-image-placeholder.png'"> -->
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          <div class="h2" *ngIf="pageType ==='edit'">
+            {{customer.customerName}}
+          </div>
+          <div class="h2" *ngIf="pageType ==='new'">
+            New Customer
+          </div>
+          <div class="subtitle secondary-text">
+            <span>Customer Detail</span>
+          </div>
+        </div>
+      </div>
+      <!-- / APP TITLE -->
+
+      <button mat-raised-button class="save-customer-button mat-white-bg mt-16 mt-sm-0" [disabled]="customerForm.invalid" *ngIf="pageType ==='new'"
+        (click)="addCustomer()">
+        <span>ADD</span>
+      </button>
+
+      <button mat-raised-button class="save-customer-button mat-white-bg mt-16 mt-sm-0" [disabled]="customerForm.invalid || customerForm.pristine"
+        *ngIf="pageType ==='edit'" (click)="saveCustomer()">
+        <span>SAVE</span>
+      </button>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <form name="customerForm" [formGroup]="customerForm" class="customer w-100-p" fxLayout="column" fxFlex>
+
+          <mat-tab-group>
+
+            <mat-tab label="Basic">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-customer-basic [group]="customerForm" [customer]="customer" [customerCategories]="customerCategories"></px-customer-basic>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Contact">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-customer-contact [group]="customerForm" [customer]="customer" [persons]="persons" (primaryContact)="setPrimaryContact($event)"
+                  (alternateContact)="setAlternateContact($event)"></px-customer-contact>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Account Information">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-customer-account [group]="customerForm" [customer]="customer"></px-customer-account>
+              </div>
+            </mat-tab>
+
+          </mat-tab-group>
+        </form>
+
+      </div>
+      <!-- / CONTENT -->
+
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+</div>

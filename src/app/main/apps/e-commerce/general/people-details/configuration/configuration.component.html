@@ -1,0 +1,22 @@
+<div [formGroup]="peopleConfigForm">
+  <mat-card>
+    <mat-card-content>
+      <!-- <h2 class="config-h2">Configuration</h2> -->
+      <section class="config-section">
+        <mat-checkbox class="config-margin" name="isPermittedToLogon" formControlName="isPermittedToLogon">Permitted To Logon</mat-checkbox>
+      </section>
+      <section class="config-section">
+        <mat-checkbox class="config-margin" name="isExternalLogonProvider" formControlName="isExternalLogonProvider">External Logon Provider</mat-checkbox>
+      </section>
+      <section class="config-section">
+        <mat-checkbox class="config-margin" name="isSystemUser" formControlName="isSystemUser">System User</mat-checkbox>
+      </section>
+      <section class="config-section">
+        <mat-checkbox class="config-margin" name="isEmployee" formControlName="isEmployee">Employee</mat-checkbox>
+      </section>
+      <section class="config-section">
+        <mat-checkbox class="config-margin" name="isSalesperson" formControlName="isSalesperson">Sales Person</mat-checkbox>
+      </section>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,75 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container cdkColumnDef="checkbox">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let language">
+            <mat-checkbox [(ngModel)]="checkboxes[language.id]" (ngModelChange)="onSelectedChange(language.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Language Code Column -->
+    <ng-container cdkColumnDef="languageCode">
+        <mat-header-cell *cdkHeaderCellDef>Language Code</mat-header-cell>
+        <mat-cell *cdkCellDef="let language">
+            <p class="text-truncate">{{language.languageCode}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Language Name Column -->
+    <ng-container cdkColumnDef="languageName">
+        <mat-header-cell *cdkHeaderCellDef>Language Name</mat-header-cell>
+        <mat-cell *cdkCellDef="let language">
+            <p class="text-truncate">{{language.languageName}}</p>
+        </mat-cell>
+    </ng-container>    
+
+    <!-- lastEditedBy Column -->
+    <ng-container cdkColumnDef="lastEditedBy">
+        <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>LastEditedBy</mat-header-cell>
+        <mat-cell *cdkCellDef="let language" fxHide fxShow.gt-lg>
+            <p class="job-title text-truncate">
+                {{language.lastEditedBy.fullName}}
+            </p>
+        </mat-cell>
+    </ng-container>    
+
+    <!-- Buttons Column -->
+    <ng-container cdkColumnDef="buttons">
+        <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+        <mat-cell *cdkCellDef="let language">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(language.id)" aria-label="Toggle star">
+                    <mat-icon *ngIf="user.starred.includes(language.id)">star</mat-icon>
+                    <mat-icon *ngIf="!user.starred.includes(language.id)">star_outline</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteLanguage(language)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *cdkRowDef="let language; columns: displayedColumns;"
+             class="language"
+             (click)="editLanguage(language)"
+             [ngClass]="{'mat-light-blue-50-bg':checkboxes[language.id]}"
+             matRipple
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

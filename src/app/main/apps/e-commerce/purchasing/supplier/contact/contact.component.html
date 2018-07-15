@@ -1,0 +1,37 @@
+<div [formGroup]="supplierContactForm">
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Primary Contact Person" aria-label="Number" matInput [formControl]="primaryContactControl"
+        [(ngModel)]="currentPrimaryContact" (ngModelChange)="primaryContact.emit($event)" [matAutocomplete]="autoPrimaryContact">
+      <mat-autocomplete #autoPrimaryContact="matAutocomplete" [displayWith]="displayFullName">
+        <mat-option *ngFor="let option of filteredPrimaryContactOptions | async" [value]="option">
+          {{ option.fullName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Alternate Contact Person" aria-label="Number" matInput [formControl]="alternateContactControl"
+        [(ngModel)]="currentAlternateContact" (ngModelChange)="alternateContact.emit($event)" [matAutocomplete]="autoAlternateContact">
+      <mat-autocomplete #autoAlternateContact="matAutocomplete" [displayWith]="displayFullName">
+        <mat-option *ngFor="let option of filteredAlternateContactOptions | async" [value]="option">
+          {{ option.fullName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="phoneNumber" formControlName="phoneNumber" placeholder="Phone Number" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="faxNumber" formControlName="faxNumber" placeholder="Fax Number" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="websiteURL" formControlName="websiteURL" placeholder="Website URL" required>
+  </mat-form-field>
+</div>

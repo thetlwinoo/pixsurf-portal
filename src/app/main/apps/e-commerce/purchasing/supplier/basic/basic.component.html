@@ -1,0 +1,41 @@
+<div [formGroup]="supplierBasicForm">
+  <mat-form-field class="w-100-p">
+    <input matInput name="supplierName" formControlName="supplierName" placeholder="Supplier Name" required>
+  </mat-form-field>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Supplier Category" formControlName="supplierCategoryID" [(ngModel)]="selectedSupplierCategoryId">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let supplierCategory of supplierCategories" [value]="supplierCategory._id">
+          {{ supplierCategory.supplierCategoryName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>  
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="supplierReference" formControlName="supplierReference" placeholder="Supplier Reference">
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="internalComments" formControlName="internalComments" placeholder="Internal Comments" rows="1">
+    </textarea>
+  </mat-form-field>  
+
+  <div class="mb-24 w-10-p" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field class="mr-24" fxFlex>
+      <input formControlName="validFrom" matInput [matDatepicker]="validFromDatePicker" placeholder="Valid From" required>
+      <mat-datepicker-toggle matSuffix [for]="validFromDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #validFromDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24 w-10-p" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field class="mr-24" fxFlex>
+      <input formControlName="validTo" matInput [matDatepicker]="validToDatePicker" placeholder="Valid To" required>
+      <mat-datepicker-toggle matSuffix [for]="validToDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #validToDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>

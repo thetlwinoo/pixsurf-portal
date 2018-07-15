@@ -1,0 +1,100 @@
+<div id="people" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="row" fxLayoutAlign="space-between center">
+
+      <!-- APP TITLE -->
+      <div fxLayout="row" fxLayoutAlign="start center">
+
+        <button class="mr-0 mr-sm-16" mat-icon-button [routerLink]="'/apps/e-commerce/people'">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        <div class="people-image mr-8 mr-sm-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+          <!-- <img *ngIf="people.images[0]" [src]="people.images[0].url">
+            <img *ngIf="!people.images[0]" [src]="'assets/images/ecommerce/people-image-placeholder.png'"> -->
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+          <div class="h2" *ngIf="pageType ==='edit'">
+            {{people.fullName}}
+          </div>
+          <div class="h2" *ngIf="pageType ==='new'">
+            New People
+          </div>
+          <div class="subtitle secondary-text">
+            <span>People Detail</span>
+          </div>
+        </div>
+      </div>
+      <!-- / APP TITLE -->
+
+      <button mat-raised-button class="save-people-button mat-white-bg mt-16 mt-sm-0" [disabled]="peopleForm.invalid" *ngIf="pageType ==='new'"
+        (click)="addPeople()">
+        <span>ADD</span>
+      </button>
+
+      <button mat-raised-button class="save-people-button mat-white-bg mt-16 mt-sm-0" [disabled]="peopleForm.invalid || peopleForm.pristine"
+        *ngIf="pageType ==='edit'" (click)="savePeople()">
+        <span>SAVE</span>
+      </button>
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <form name="peopleForm" [formGroup]="peopleForm" class="people w-100-p" fxLayout="column" fxFlex>
+
+          <mat-tab-group>
+
+            <mat-tab label="Basic">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <px-people-basic [group]="peopleForm" [people]="people" [languages]="languages"></px-people-basic>
+              </div>
+            </mat-tab>
+
+            <mat-tab label="Configuration">
+                <div class="tab-content p-24" fusePerfectScrollbar>
+                  <px-people-configuration [group]="peopleForm" [people]="people"></px-people-configuration>
+                </div>
+              </mat-tab>
+
+            <mat-tab label="People Images">
+              <div class="tab-content p-24" fusePerfectScrollbar>
+                <div fxLayout="row wrap" fxLayoutAlign="start start">
+
+                  <!-- <div *ngIf="people.images.length === 0" class="people-image" fxlayout="row" fxLayoutAlign="center center">
+                      <img class="media" [src]="'assets/images/ecommerce/people-image-placeholder.png'">
+                    </div>
+  
+                    <div *ngFor="let image of people.images">
+                      <div *ngIf="people.images.length > 0" class="people-image" fxlayout="row" fxLayoutAlign="center center">
+                        <img class="media" [src]="image.url">
+                      </div>
+                    </div> -->
+                </div>
+              </div>
+            </mat-tab>            
+          </mat-tab-group>
+        </form>
+
+      </div>
+      <!-- / CONTENT -->
+
+    </div>
+    <!-- / CONTENT CARD -->
+
+  </div>
+  <!-- / CENTER -->
+</div>

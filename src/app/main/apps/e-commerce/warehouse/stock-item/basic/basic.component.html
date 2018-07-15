@@ -1,0 +1,80 @@
+<div [formGroup]="stockItemBasicForm">
+  <mat-form-field class="w-100-p">
+    <input matInput name="stockItemName" formControlName="stockItemName" placeholder="Stock Item Name" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="searchDetails" formControlName="searchDetails" placeholder="Search Details" rows="1">
+    </textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <mat-select placeholder="Stock Groups" formControlName="stockGroups" [(ngModel)]="selectedStockGroups" multiple>
+      <mat-option *ngFor="let stockGroup of stockGroups" [value]="stockGroup._id">{{stockGroup.stockGroupName}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <h3 class="mb-0">Tags</h3>
+  <mat-form-field class="w-100-p" floatPlaceholder="never">
+    <mat-chip-list matPrefix #tagList name="tags" formControlName="tags">
+
+      <mat-chip *ngFor="let tag of stockItem.tags" removable="true" (removed)="removeTag(tag)">
+        {{tag}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <input matInput matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addTag($event)" placeholder="Add tag..." [matChipInputFor]="tagList"
+    />
+  </mat-form-field>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Supplier" formControlName="supplierID" [(ngModel)]="selectedSupplierId" required>
+        <mat-option *ngFor="let supplier of suppliers" [value]="supplier._id">
+          {{ supplier.supplierName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Color" formControlName="colorID" [(ngModel)]="selectedColorId">
+          <mat-option>None</mat-option>
+        <mat-option *ngFor="let color of colors" [value]="color._id">
+          {{ color.colorName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="brand" formControlName="brand" placeholder="Brand">
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="leadTimeDays" formControlName="leadTimeDays" placeholder="Lead Time Days" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="marketingComments" formControlName="marketingComments" placeholder="Marketing Comments" rows="1"
+      required>
+    </textarea>
+  </mat-form-field>
+
+  <div class="mb-24 w-100-p" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field class="mr-24" fxFlex>
+      <input formControlName="validFrom" matInput [matDatepicker]="validFromDatePicker" placeholder="Valid From" required>
+      <mat-datepicker-toggle matSuffix [for]="validFromDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #validFromDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24 w-100-p" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field class="mr-24" fxFlex>
+      <input formControlName="validTo" matInput [matDatepicker]="validToDatePicker" placeholder="Valid To" required>
+      <mat-datepicker-toggle matSuffix [for]="validToDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #validToDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>

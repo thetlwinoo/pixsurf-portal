@@ -1,0 +1,129 @@
+<div class="image-viewer">
+  <div class="image-viewer-wrapper">
+    <div class="image-viewer-title">
+      <div class="image-viewer-title-spacer">Processing Images</div>
+      <button mat-icon-button matTooltip="Remove" (click)="onRemoveImage($event)" [disabled]="!selection.hasValue()">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+      <button mat-icon-button matTooltip="Save" (click)="onSaveImage($event)">
+        <mat-icon>save</mat-icon>
+      </button>
+    </div>
+    <div class="image-viewer-body">
+      <mat-table class="stock-image-table" #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+        <ng-container cdkColumnDef="select">
+          <mat-header-cell *cdkHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="path">
+          <mat-header-cell *cdkHeaderCellDef>Image</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <img class="stock-item-image" *ngIf="row.uri" alt="No Photo Available" src="{{row.uri}}" />
+            <img *ngIf="!row.uri" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="name">
+          <mat-header-cell *cdkHeaderCellDef>Label</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <p class="text-truncate">{{row.name}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="sortOrder">
+          <mat-header-cell *cdkHeaderCellDef>Sort Order</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <div class="custom">
+              <input #sortorder matInput type="number" [(ngModel)]="row.sortOrder" min="0">
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="isBaseImage">
+          <mat-header-cell *cdkHeaderCellDef>Base Image</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <mat-radio-button name="base-image" [disableRipple]="true" (click)="$event.stopPropagation()" [checked]="row.isBaseImage" (change)="onChangedRadio($event,row)"></mat-radio-button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="isSmallImage">
+          <mat-header-cell *cdkHeaderCellDef>Small Image</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">`
+            <mat-radio-button name="small-image" [disableRipple]="true" (click)="$event.stopPropagation()" [checked]="row.isSmallImage" (change)="onChangedRadio($event,row)"></mat-radio-button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="isThumbnail">
+          <mat-header-cell *cdkHeaderCellDef>Thumbnail</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <mat-radio-button name="thumbnail" [disableRipple]="true" (click)="$event.stopPropagation()" [checked]="row.isThumbnail" (change)="onChangedRadio($event,row)"></mat-radio-button>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container cdkColumnDef="exclude">
+          <mat-header-cell *cdkHeaderCellDef>Exclude</mat-header-cell>
+          <mat-cell *cdkCellDef="let row">
+            <mat-checkbox [disableRipple]="true" [(ngModel)]="row.exclude" (click)="$event.stopPropagation()"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" class="stock-item">
+        </mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
+<h3 class="mb-0" *ngIf="selectedFiles">Upload Files</h3>
+<mat-chip-list matPrefix #imageList name="files">
+  <mat-chip *ngFor="let file of selectedFiles" removable="true" (removed)="removeFile(file)">
+    {{file.name}}
+    <mat-icon matChipRemove>cancel</mat-icon>
+  </mat-chip>
+</mat-chip-list>
+<hr>
+<div fxLayout="row" fxLayoutAlign="end center">
+  <input hidden type="file" name="file" #fileInput (change)="onSelectFile($event)" multiple/>
+  <button class="ctrl-button" mat-raised-button color="primary" aria-label="Browse Files" [disabled]="pageType == 'new'" (click)="fileInput.click()">
+    Browse Files
+  </button>
+  <button class="ctrl-button" mat-raised-button color="primary" aria-label="Upload Files" [disabled]="pageType == 'new'" (click)="onSaveFiles()">
+    Upload Files
+  </button>
+</div>
+<!-- <div [formGroup]="rowImageForm" id="stock-image">
+  <mat-form-field class="w-100-p" fxlayout="row">
+    <input matInput type="text" name="photo" placeholder="photo" formControlName="photo" />
+  </mat-form-field>
+
+  <div class="py-16" fxLayout="row">
+    <mat-form-field class="w-100-p">
+      <input hidden type="file" #fileInput (change)="onSelectFile($event)" />
+      <input matInput type="text" name="photo" placeholder="Select Image..." [formControl]="fileUploadControl" [(ngModel)]="selectedFileName"
+      />
+      <button mat-button matSuffix mat-icon-button aria-label="Browse" (click)="fileInput.click()">
+        <mat-icon>image_search</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <div class="upload w-100-p" fxLayout="row" fxLayoutAlign="start center">
+      <button mat-raised-button color="warn" [disabled]="!previewImage">Upload</button>
+    </div>
+
+    <div class="upload w-100-p" fxLayout="row" fxLayoutAlign="start center">
+      <button mat-raised-button color="primary" [disabled]="!previewImage" (click)="resetUpload($event)">Reset</button>
+    </div>
+  </div>
+
+
+  <div *ngIf="previewImage" class="product-image" fxlayout="row" fxLayoutAlign="center center">
+    <img class="media" [src]="previewImage">
+  </div>
+</div> -->

@@ -1,0 +1,54 @@
+<div id="supplierCategories" class="page-layout simple left-sidenav inner-sidenav">
+
+    <!-- HEADER -->
+    <div class="header mat-accent-bg p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start start" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+  
+      <!-- APP TITLE -->
+      <div fxLayout="row" fxLayoutAlign="start center">
+  
+        <button mat-button class="mat-icon-button sidenav-toggle mr-12" fuseMatSidenavToggler="supplier-categorys-main-sidenav" fxHide.gt-md>
+          <mat-icon>menu</mat-icon>
+        </button>
+  
+        <div class="logo" fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">account_box</mat-icon>
+          <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Supplier Categories</span>
+        </div>
+  
+      </div>
+      <!-- / APP TITLE -->
+  
+      <!-- SEARCH -->
+      <div class="search-input-wrapper mt-16 ml-8 m-sm-0" fxLayout="row" fxLayoutAlign="start center">
+        <label for="search" class="mr-8">
+          <mat-icon>search</mat-icon>
+        </label>
+        <mat-form-field mat-no-float class="m-0" floatPlaceholder="never">
+          <input matInput [formControl]="searchInput" id="search" placeholder="Search for anything">
+        </mat-form-field>
+      </div>
+      <!-- / SEARCH -->
+  
+    </div>
+    <!-- / HEADER -->
+  
+    <!-- SELECTED BAR -->
+    <px-supplier-category-selected-bar class="mat-accent-600-bg" *ngIf="hasSelectedSupplierCategories" [@slideInTop]></px-supplier-category-selected-bar>
+    <!-- / SELECTED BAR -->
+  
+    <!-- CONTENT -->
+    <div class="content mat-white-bg">
+  
+      <px-supplier-category-list></px-supplier-category-list>
+  
+    </div>
+    <!-- / CONTENT -->
+  
+  </div>
+  
+  <!-- ADD CONTACT BUTTON -->
+  <button mat-fab class="mat-accent-bg" id="add-supplier-category-button" (click)="newSupplierCategory()" aria-label="add supplier category" *fuseIfOnDom [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+    <mat-icon>add</mat-icon>
+  </button>
+  <!-- / ADD CONTACT BUTTON -->
+  

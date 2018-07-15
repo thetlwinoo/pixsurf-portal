@@ -1,0 +1,72 @@
+<div class="supplier-delivery-form" [formGroup]="supplierDeliveryForm">
+  <!-- <p> -->
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Delivery Method" formControlName="deliveryMethodID" [(ngModel)]="selectedDeliveryMethodId" (ngModelChange)="onDeliveryMethodChanged($event)">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let deliveryMethod of deliveryMethods" [value]="deliveryMethod._id">
+          {{ deliveryMethod.deliveryMethodName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="deliveryAddressLine1" formControlName="deliveryAddressLine1" placeholder="Delivery Address Line1"
+      required></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="deliveryAddressLine2" formControlName="deliveryAddressLine2" placeholder="Delivery Address Line2"></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="deliveryLocation" formControlName="deliveryLocation" placeholder="Delivery Location">
+  </mat-form-field>
+  <!-- </p> -->
+
+  <div class="py-16" fxLayout="row">
+    <div class="mb-24" fxLayout="row" fxLayoutAlign="start start" class="w-100-p">
+      <mat-form-field fxFlex>
+        <mat-select placeholder="Delivery City" formControlName="deliveryCityID" [(ngModel)]="selectedDeliveryCityId" (ngModelChange)="onDeliveryCityChanged($event)">
+          <mat-option>None</mat-option>
+          <mat-option *ngFor="let city of cities" [value]="city._id">
+            {{ city.cityName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="w-100-p">
+      <input matInput #postalCode maxlength="5" name="postalPostalCode" formControlName="postalPostalCode" placeholder="Delivery Postal Code"
+        required>
+      <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <!-- <p> -->
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="postalAddressLine1" formControlName="postalAddressLine1" placeholder="Postal Address Line1" required></textarea>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <textarea matInput name="postalAddressLine2" formControlName="postalAddressLine2" placeholder="Postal Address Line2"></textarea>
+  </mat-form-field>
+  <!-- </p> -->
+  <div class="py-16" fxLayout="row">
+    <div class="mb-24" fxLayout="row" fxLayoutAlign="start start" class="w-100-p">
+      <mat-form-field fxFlex>
+        <mat-select placeholder="Postal City" formControlName="postalCityID" [(ngModel)]="selectedPostalCityId" (ngModelChange)="onPostalCityChanged($event)">
+          <mat-option *ngFor="let city of cities" [value]="city._id">
+            {{ city.cityName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="w-100-p">
+      <input matInput #postalCode maxlength="5" name="deliveryPostalCode" formControlName="deliveryPostalCode" placeholder="Postal Postal Code"
+        required>
+      <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+    </mat-form-field>
+  </div>
+</div>

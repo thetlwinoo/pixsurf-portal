@@ -1,0 +1,21 @@
+<div class="customer-bank-info-form" [formGroup]="customerBankInfoForm">
+    <mat-form-field class="w-100-p">
+      <input matInput name="accountNumber" formControlName="accountNumber" placeholder="Account Number">
+    </mat-form-field>
+
+    <mat-form-field class="w-100-p">
+      <input matInput name="paymentDays" formControlName="paymentDays" placeholder="Payment Days" required>
+    </mat-form-field>
+
+    <div class="mb-24 w-10-p" fxLayout="row" fxLayoutAlign="start start">
+      <mat-form-field class="mr-24" fxFlex>
+        <input formControlName="accountOpenedDate" matInput [matDatepicker]="accountOpenedDatePicker" placeholder="Account Opened Date" required>
+        <mat-datepicker-toggle matSuffix [for]="accountOpenedDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #accountOpenedDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <mat-checkbox name="isStatementSent" formControlName="isStatementSent">Statement Sent</mat-checkbox>
+
+    <mat-checkbox name="isOnCreditHold" formControlName="isOnCreditHold">OnCredit Hold</mat-checkbox>
+
+</div>

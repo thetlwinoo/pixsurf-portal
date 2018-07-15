@@ -1,0 +1,22 @@
+<div [formGroup]="stockItemPricingForm">
+  <mat-form-field class="w-100-p">
+    <input matInput name="unitPrice" formControlName="unitPrice" placeholder="UnitPrice" type="number">
+    <span matPrefix>$&nbsp;</span>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="recommendedRetailPrice" formControlName="recommendedRetailPrice" placeholder="RecommendedRetailPrice" type="number">
+    <span matPrefix>$&nbsp;</span>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="taxRate" formControlName="taxRate" placeholder="Tax Rate" type="number">
+    <span matPrefix>&#37;</span>
+  </mat-form-field>
+
+  <!-- <mat-form-field class="w-100-p">
+    <input matInput name="comparedPrice" formControlName="comparedPrice" placeholder="Compared Price" type="number">
+    <span matPrefix>$&nbsp;</span>
+    <mat-hint align="start">Add a compare price to show next to the real price</mat-hint>
+  </mat-form-field> -->
+</div>

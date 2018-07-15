@@ -1,0 +1,61 @@
+<div [formGroup]="customerBasicForm">
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Person" formControlName="person" [(ngModel)]="selectedPerson">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let p of person" [value]="p._id">
+          {{ p.fullName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Bill To Customer" formControlName="billToCustomer" [(ngModel)]="selectedBillToCustomer">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let btc of billToCustomers" [value]="btc._id">
+          {{ btc.fullName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Customer Category" formControlName="customerCategory" [(ngModel)]="selectedCustomerCategory">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let cc of customerCategories" [value]="cc._id">
+          {{ cc.customerCategoryName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Buying Group" formControlName="buyingGroup" [(ngModel)]="selectedBuyingGroup">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let bg of buyingGroups" [value]="bg._id">
+          {{ bg.buyingGroupName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24 w-10-p" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field class="mr-24" fxFlex>
+      <input formControlName="validFrom" matInput [matDatepicker]="validFromDatePicker" placeholder="Valid From" required>
+      <mat-datepicker-toggle matSuffix [for]="validFromDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #validFromDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24 w-10-p" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field class="mr-24" fxFlex>
+      <input formControlName="validTo" matInput [matDatepicker]="validToDatePicker" placeholder="Valid To" required>
+      <mat-datepicker-toggle matSuffix [for]="validToDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #validToDatePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+</div>

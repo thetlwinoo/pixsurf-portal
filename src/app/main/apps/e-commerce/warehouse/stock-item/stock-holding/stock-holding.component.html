@@ -1,0 +1,24 @@
+<div [formGroup]="stockHoldingForm">
+  <mat-form-field class="w-100-p">
+    <input matInput name="quantityOnHand" formControlName="quantityOnHand" placeholder="Quantity OnHand" type="number" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="binLocation" formControlName="binLocation" placeholder="Bin Location" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="lastStocktakeQuantity" formControlName="lastStocktakeQuantity" placeholder="Last Stock Take Quantity"
+      required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="reorderLevel" formControlName="reorderLevel" placeholder="Reorder Level" required>
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="targetStockLevel" formControlName="targetStockLevel" placeholder="Target Stock Level" required>
+  </mat-form-field>
+
+  <mat-checkbox name="isChillerStock" formControlName="isChillerStock">Chiller Stock</mat-checkbox>
+</div>

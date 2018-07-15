@@ -1,0 +1,34 @@
+<div [formGroup]="stockItemPackagingForm">
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Unit Package" formControlName="unitPackageID" [(ngModel)]="selectedUnitPackageId" required>
+        <mat-option *ngFor="let packageType of packageTypes" [value]="packageType._id">
+          {{ packageType.packageTypeName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <mat-select placeholder="Outer Package" formControlName="outerPackageID" [(ngModel)]="selectedOuterPackageId" required>
+        <mat-option *ngFor="let packageType of packageTypes" [value]="packageType._id">
+          {{ packageType.packageTypeName }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="barcode" formControlName="barcode" placeholder="Barcode">
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="size" formControlName="size" placeholder="Size">
+  </mat-form-field>
+
+  <mat-form-field class="w-100-p">
+    <input matInput name="quantityPerOuter" formControlName="quantityPerOuter" placeholder="Quantity Per Outer" required>
+  </mat-form-field>
+</div>

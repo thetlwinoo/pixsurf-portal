@@ -1,0 +1,86 @@
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+  <!-- Checkbox Column -->
+  <ng-container cdkColumnDef="checkbox">
+    <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+    <mat-cell *cdkCellDef="let color">
+      <mat-checkbox [(ngModel)]="checkboxes[color.id]" (ngModelChange)="onSelectedChange(color.id)" (click)="$event.stopPropagation()">
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Color Code Column -->
+  <ng-container cdkColumnDef="colorCode">
+    <mat-header-cell *cdkHeaderCellDef>Color Code</mat-header-cell>
+    <mat-cell *cdkCellDef="let color">
+      <p class="text-truncate">{{color.colorCode}}</p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Color Name Column -->
+  <ng-container cdkColumnDef="colorName">
+    <mat-header-cell *cdkHeaderCellDef>Color Name</mat-header-cell>
+    <mat-cell *cdkCellDef="let color">
+      <p class="text-truncate">{{color.colorName}}</p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- lastEditedBy Column -->
+  <ng-container cdkColumnDef="lastEditedBy">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>LastEditedBy</mat-header-cell>
+    <mat-cell *cdkCellDef="let color" fxHide fxShow.gt-lg>
+      <p class="job-title text-truncate">
+        {{color.lastEditedBy.fullName}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- validFrom Column -->
+  <ng-container cdkColumnDef="validFrom">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>ValidFrom</mat-header-cell>
+    <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-lg>
+      <p class="company text-truncate">
+        {{city.validFrom | date}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- validTo Column -->
+  <ng-container cdkColumnDef="validTo">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>ValidTo</mat-header-cell>
+    <mat-cell *cdkCellDef="let city" fxHide fxShow.gt-lg>
+      <p class="company text-truncate">
+        {{city.validTo | date}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Buttons Column -->
+  <ng-container cdkColumnDef="buttons">
+    <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+    <mat-cell *cdkCellDef="let color">
+      <div fxFlex="row" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="$event.stopPropagation();toggleStar(color.id)" aria-label="Toggle star">
+          <mat-icon *ngIf="user.starred.includes(color.id)">star</mat-icon>
+          <mat-icon *ngIf="!user.starred.includes(color.id)">star_outline</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+          <button mat-menu-item aria-label="remove" (click)="deleteColor(color)">
+            <mat-icon>delete</mat-icon>
+            <span>Remove</span>
+          </button>
+        </mat-menu>
+      </div>
+
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *cdkRowDef="let color; columns: displayedColumns;" class="color" (click)="editColor(color)" [ngClass]="{'mat-light-blue-50-bg':checkboxes[color.id]}"
+    matRipple [@animate]="{value:'*',params:{y:'100%'}}">
+  </mat-row>
+</mat-table>

@@ -1,0 +1,25 @@
+<div [formGroup]="customerContactForm">
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Primary Contact Person" aria-label="Number" matInput [formControl]="primaryContactControl"
+        [(ngModel)]="currentPrimaryContact" (ngModelChange)="primaryContact.emit($event)" [matAutocomplete]="autoPrimaryContact">
+      <mat-autocomplete #autoPrimaryContact="matAutocomplete" [displayWith]="displayFullName">
+        <mat-option *ngFor="let option of filteredPrimaryContactOptions | async" [value]="option">
+          {{ option.fullName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <mat-form-field fxFlex>
+      <input type="text" placeholder="Alternate Contact Person" aria-label="Number" matInput [formControl]="alternateContactControl"
+        [(ngModel)]="currentAlternateContact" (ngModelChange)="alternateContact.emit($event)" [matAutocomplete]="autoAlternateContact">
+      <mat-autocomplete #autoAlternateContact="matAutocomplete" [displayWith]="displayFullName">
+        <mat-option *ngFor="let option of filteredAlternateContactOptions | async" [value]="option">
+          {{ option.fullName }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+</div>

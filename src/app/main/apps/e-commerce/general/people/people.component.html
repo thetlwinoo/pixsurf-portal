@@ -1,0 +1,110 @@
+<div id="people" class="page-layout carded fullwidth" fusePerfectScrollbar>
+
+  <!-- TOP BACKGROUND -->
+  <div class="top-bg mat-accent-bg"></div>
+  <!-- / TOP BACKGROUND -->
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- HEADER -->
+    <div class="header white-fg" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+      <!-- APP TITLE -->
+      <div class="logo my-12 m-sm-0" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">shopping_basket</mat-icon>
+        <span class="logo-text h1" *fuseIfOnDom [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">People List</span>
+      </div>
+      <!-- / APP TITLE -->
+
+      <!-- SEARCH -->
+      <div class="search-input-wrapper mx-12 m-md-0" fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
+        <label for="search" class="mr-8">
+          <mat-icon class="secondary-text">search</mat-icon>
+        </label>
+        <mat-form-field floatPlaceholder="never" fxFlex="1 0 auto">
+          <input id="search" matInput #filter placeholder="Search">
+        </mat-form-field>
+      </div>
+      <!-- / SEARCH -->
+
+      <button mat-raised-button [routerLink]="'/apps/e-commerce/people/new'" class="add-people-button mat-white-bg my-12 mt-sm-0">
+        <span>ADD NEW PEOPLE</span>
+      </button>
+
+    </div>
+    <!-- / HEADER -->
+
+    <px-people-selected-bar class="mat-accent-600-bg" *ngIf="hasSelectedPeople" [@slideInTop]></px-people-selected-bar>
+
+    <!-- CONTENT CARD -->
+    <div class="content-card mat-white-bg">
+
+      <mat-table class="people-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
+
+        <!-- Checkbox Column -->
+        <ng-container cdkColumnDef="checkbox">
+          <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+          <mat-cell *cdkCellDef="let people">
+            <mat-checkbox [disableRipple]="true" [(ngModel)]="checkboxes[people._id]" (ngModelChange)="onSelectedChange(people._id)"
+              (click)="$event.stopPropagation()">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <!-- People Name Column -->
+        <ng-container cdkColumnDef="fullName">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>FullName</mat-header-cell>
+          <mat-cell *cdkCellDef="let people">
+            <p class="text-truncate">{{people.fullName}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <!-- preferredName Column -->
+        <ng-container cdkColumnDef="preferredName">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>preferredName</mat-header-cell>
+          <mat-cell *cdkCellDef="let people">
+            <p class="text-truncate">{{people.preferredName}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <!-- logonName Column -->
+        <ng-container cdkColumnDef="logonName">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>logonName</mat-header-cell>
+          <mat-cell *cdkCellDef="let people">
+            <p class="text-truncate">{{people.logonName}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <!-- phoneNumber Column -->
+        <ng-container cdkColumnDef="phoneNumber">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>phoneNumber</mat-header-cell>
+          <mat-cell *cdkCellDef="let people">
+            <p class="text-truncate">{{people.phoneNumber}}</p>
+          </mat-cell>
+        </ng-container>
+
+        <!-- emailAddress Column -->
+        <ng-container cdkColumnDef="emailAddress">
+          <mat-header-cell *cdkHeaderCellDef mat-sort-header>emailAddress</mat-header-cell>
+          <mat-cell *cdkCellDef="let people">
+            <p class="text-truncate">{{people.emailAddress}}</p>
+          </mat-cell>
+        </ng-container>        
+
+        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <mat-row *cdkRowDef="let people; columns: displayedColumns;" class="people" [ngClass]="{'mat-light-blue-50-bg':checkboxes[people._id]}"
+          matRipple [routerLink]="'/apps/e-commerce/people/'+people._id" [@animate]="{value:'*',params:{y:'100%'}}">
+        </mat-row>
+
+      </mat-table>
+
+      <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+
+    </div>
+    <!-- / CONTENT CARD -->
+  </div>
+  <!-- / CENTER -->
+</div>

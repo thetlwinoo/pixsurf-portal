@@ -1,0 +1,138 @@
+<mat-table #table [dataSource]="dataSource" [@animateStagger]="{value:'50'}">
+  <!-- Checkbox Column -->
+  <ng-container cdkColumnDef="checkbox">
+    <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+    <mat-cell *cdkCellDef="let address">
+      <mat-checkbox [(ngModel)]="checkboxes[address.id]" (ngModelChange)="onSelectedChange(address.id)" (click)="$event.stopPropagation()">
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Address Type Column -->
+  <ng-container cdkColumnDef="addressType">
+    <mat-header-cell *cdkHeaderCellDef>Address Type</mat-header-cell>
+    <mat-cell *cdkCellDef="let address">
+      <p class="text-truncate">{{address.addressType.addressTypeName}}</p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- addressLine1 Column -->
+  <ng-container cdkColumnDef="addressLine1">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>addressLine1</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-md>
+      <p class="phone text-truncate">
+        {{address.addressLine1}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- addressLine2 Column -->
+  <ng-container cdkColumnDef="addressLine2">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>addressLine2</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-md>
+      <p class="phone text-truncate">
+        {{address.addressLine2}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- addressLine2 Column -->
+  <ng-container cdkColumnDef="city">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>city</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-md>
+      <p class="phone text-truncate">
+        {{address.city.cityName}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- stateProvince Column -->
+  <ng-container cdkColumnDef="stateProvince">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>stateProvince</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-md>
+      <p class="phone text-truncate">
+        {{address.stateProvince.stateProvinceName}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- country Column -->
+  <ng-container cdkColumnDef="country">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>country</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-md>
+      <p class="phone text-truncate">
+        {{address.country.countryName}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- postalCode Column -->
+  <ng-container cdkColumnDef="postalCode">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-md>postalCode</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-md>
+      <p class="phone text-truncate">
+        {{address.postalCode}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- lastEditedBy Column -->
+  <ng-container cdkColumnDef="lastEditedBy">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>LastEditedBy</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-lg>
+      <p class="job-title text-truncate">
+        {{address.lastEditedBy.fullName}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- validFrom Column -->
+  <ng-container cdkColumnDef="validFrom">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>ValidFrom</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-lg>
+      <p class="company text-truncate">
+        {{address.validFrom | date}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- validTo Column -->
+  <ng-container cdkColumnDef="validTo">
+    <mat-header-cell *cdkHeaderCellDef fxHide fxShow.gt-lg>ValidTo</mat-header-cell>
+    <mat-cell *cdkCellDef="let address" fxHide fxShow.gt-lg>
+      <p class="company text-truncate">
+        {{address.validTo | date}}
+      </p>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Buttons Column -->
+  <ng-container cdkColumnDef="buttons">
+    <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
+    <mat-cell *cdkCellDef="let address">
+      <div fxFlex="row" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="$event.stopPropagation();toggleStar(address.id)" aria-label="Toggle star">
+          <mat-icon *ngIf="user.starred.includes(address.id)">star</mat-icon>
+          <mat-icon *ngIf="!user.starred.includes(address.id)">star_outline</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More" (click)="$event.stopPropagation();">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+          <button mat-menu-item aria-label="remove" (click)="deleteAddress(address)">
+            <mat-icon>delete</mat-icon>
+            <span>Remove</span>
+          </button>
+        </mat-menu>
+      </div>
+
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *cdkRowDef="let address; columns: displayedColumns;" class="address" (click)="editAddress(address)" [ngClass]="{'mat-light-blue-50-bg':checkboxes[address.id]}"
+    matRipple [@animate]="{value:'*',params:{y:'100%'}}">
+  </mat-row>
+</mat-table>
