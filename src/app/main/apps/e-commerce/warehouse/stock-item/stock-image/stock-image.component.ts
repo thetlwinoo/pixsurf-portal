@@ -143,7 +143,7 @@ export class StockImageComponent implements OnInit {
           .then((res) => {
             // Trigger the subscription with new data
             // this.stockImageService.onImagesChanged.next(res);            
-            this.stockImageService.getImages(this.stockItem.id);
+            // this.stockImageService.getImages(this.stockItem.id,false,false,true);
           });
         this.removeFile(file);
       }
@@ -163,9 +163,11 @@ export class StockImageComponent implements OnInit {
   }
 
   onSaveImage(event) {
-    this.images.forEach(image => {
-      this.stockImageService.saveImage(image._id,image);
-    })
+    console.log('Save', event);
+    // this.images.forEach(image => {
+    //   this.stockImageService.saveImage(image._id,image);
+
+    // })
   }
 
   onRemoveImage(event) {
@@ -178,7 +180,7 @@ export class StockImageComponent implements OnInit {
     });
 
     if (!error) {
-      this.stockImageService.getImages(this.stockItem.id);
+      // this.stockImageService.getImages(this.stockItem.id,false,false,true);
       this.selection.clear();
     }
   }

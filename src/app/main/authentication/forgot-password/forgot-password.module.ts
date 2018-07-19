@@ -1,33 +1,32 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { RegisterComponent } from 'app/main/pages/authentication/register/register.component';
+import { ForgotPasswordComponent } from 'app/main/authentication/forgot-password/forgot-password.component';
 
 const routes = [
     {
-        path     : 'auth/register',
-        component: RegisterComponent
+        path     : 'forgot-password',
+        component: ForgotPasswordComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        RegisterComponent
+        ForgotPasswordComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
 
         MatButtonModule,
-        MatCheckboxModule,
         MatFormFieldModule,
         MatInputModule,
 
         FuseSharedModule
     ]
 })
-export class RegisterModule
+export class ForgotPasswordModule
 {
 }

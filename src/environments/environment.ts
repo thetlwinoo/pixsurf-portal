@@ -4,8 +4,12 @@
 
 export const environment = {
     production: false,
-    hmr       : false,
-    API_BASE: 'https://pixsurf-api.herokuapp.com/'
+    hmr: false,
+    API_BASE: 'https://pixsurf-api.herokuapp.com/',
+    cloudinary: {
+        cloud_name: 'www-pixsurf-com',
+        upload_preset: 'iffbb1jh'
+    }
 };
 
 /*

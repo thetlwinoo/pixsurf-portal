@@ -23,11 +23,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { FakeDbService } from 'app/fake-db/fake-db.service';
 import { AppStoreModule } from 'app/store/store.module';
 
-import { AuthService } from '@fuse/services/partials/auth.service';
-import { Feathers } from '@fuse/services/partials/feathers.service';
-import { PxDataService } from '@fuse/services/partials/data.service';
-import { PeopleService } from '@fuse/services/partials/people.service';
-
 const appRoutes: Routes = [
     {
         path: 'apps',
@@ -38,6 +33,10 @@ const appRoutes: Routes = [
         path: 'pages',
         loadChildren: './main/pages/pages.module#PagesModule',
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'auth',
+        loadChildren: './main/authentication/authentication.module#AuthenticationModule'
     },
     {
         path: '**',
@@ -66,7 +65,7 @@ const appRoutes: Routes = [
         // Material
         MatButtonModule,
         MatIconModule,
-
+       
         // Fuse modules
         FuseModule.forRoot(fuseConfig),
         FuseSharedModule,
@@ -79,11 +78,7 @@ const appRoutes: Routes = [
         AppStoreModule
     ],
     providers: [
-        AuthGuard,
-        AuthService,
-        Feathers,
-        PxDataService,
-        PeopleService
+        AuthGuard
     ],
     bootstrap: [
         AppComponent

@@ -61,6 +61,7 @@ export class EcommerceStockItemService implements Resolve<any>
 
     this.routeParams = route.params;
 
+    console.log(this.routeParams);
     return new Promise((resolve, reject) => {
 
       Promise.all([
@@ -70,7 +71,7 @@ export class EcommerceStockItemService implements Resolve<any>
         this.getPackageTypes(),
         this.getStockGroups(),
         this.getAuthenticatedPeople(),
-        this.getImages(this.routeParams.id)
+        // this.getImages(this.routeParams.id,false,false,true)
       ]).then(
         () => {
           resolve();
@@ -84,13 +85,16 @@ export class EcommerceStockItemService implements Resolve<any>
     return new Promise((resolve, reject) => {
       if (this.routeParams.id === 'new') {
         this.onStockItemChanged.next(false);
+        this.onImagesChanged.next(false);
         resolve(false);
       }
       else {
         this.stockItem$(this.routeParams.id)
           .subscribe((response: any) => {
             this.stockItem = response;
+            console.log(response)
             this.onStockItemChanged.next(this.stockItem);
+            this.onImagesChanged.next(this.stockItem.images);
             resolve(response);
           }, reject);
       }
@@ -258,32 +262,31 @@ export class EcommerceStockItemService implements Resolve<any>
   }
   //end feathers API
 
-  getImages(id): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.images$(id)
-        .subscribe((response: any) => {
-          this.images = response;
-          console.log(response)
-          this.images.map(image => {
-            this.http.get(this.api_base + "media?filename=" + image.fileName).subscribe((res: any) => {
-              if (res.error) {
-                image.uri = null;
-              } else {
-                image.uri = res;
-              }
-            })
-          })
-          this.onImagesChanged.next(response);
-          resolve(response);
-        }, reject);
-    });
-  }
+  // getImages(stockItemId, isBaseImage, isSmallImage, isThumbnail): Promise<any> {
+  //   return new Promise((resolve, reject) => {
+  //     this.images$(stockItemId, isBaseImage, isSmallImage, isThumbnail)
+  //       .subscribe((response: any) => {
+  //         this.images = response;
+  //         this.images.map(image => {
+  //           this.http.get(this.api_base + "media?filename=" + image.fileName).subscribe((res: any) => {
+  //             if (res.error) {
+  //               image.uri = null;
+  //             } else {
+  //               image.uri = res;
+  //             }
+  //           })
+  //         })
+  //         this.onImagesChanged.next(response);
+  //         resolve(response);
+  //       }, reject);
+  //   });
+  // }
 
   saveImage(id, image) {
     return new Promise((resolve, reject) => {
       this.saveImage$(id, image)
         .subscribe((response: any) => {
-          this.getImages(id);
+          // this.getImages(response.stockItemId,false,false,true);
           resolve(response);
         }, reject);
     });
@@ -310,8 +313,8 @@ export class EcommerceStockItemService implements Resolve<any>
   }
 
   //feathers API
-  private images$(id): Observable<any> {    
-    if (id == 'new') return Observable.of([]);
+  private images$(stockItemId, isBaseImage, isSmallImage, isThumbnail): Observable<any> {
+    if (stockItemId == 'new') return Observable.of([]);
     else
       return (<any>this.feathers
         .service('general/images'))
@@ -319,7 +322,11 @@ export class EcommerceStockItemService implements Resolve<any>
         .find(
           {
             query: {
-              "stockItemId": id,
+              $limit: 3,
+              "stockItemId": stockItemId,
+              "isBaseImage": isBaseImage,
+              "isSmallImage": isSmallImage,
+              "isThumbnail": isThumbnail
             }
           }
         )
@@ -343,7 +350,6 @@ export class EcommerceStockItemService implements Resolve<any>
     if (data === '') {
       return;
     }
-    console.log(id, data)
     return Observable.fromPromise(this.feathers
       .service('general/images')
       .update(id, data));

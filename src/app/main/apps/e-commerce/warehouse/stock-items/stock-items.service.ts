@@ -47,6 +47,11 @@ export class EcommerceStockItemsService implements Resolve<any>
             this.stockItems$(skip)
                 .subscribe((response: any) => {
                     this.stockItems = response;
+
+                    // this.stockItems.forEach(element=>{
+                        
+                    // });
+
                     this.onStockItemsChanged.next(this.stockItems);
                     resolve(response);
                 }, reject);
@@ -96,23 +101,14 @@ export class EcommerceStockItemsService implements Resolve<any>
     }
 
     deleteStockItem(stockItem) {
-        // const stockItemIndex = this.stockItems.indexOf(stockItem);
-        // this.stockItems.splice(stockItemIndex, 1);
-        // this.onStockItemsChanged.next(this.stockItems);
         this.deleteStockItem$(stockItem._id);
         this.getStockItems(0);
     }
 
     deleteSelectedStockItems() {
         for (const stockItemId of this.selectedStockItems) {
-            // const stockItem = this.stockItems.find(_stockItem => {
-            //     return _stockItem.id === stockItemId;
-            // });
-            // const stockItemIndex = this.stockItems.indexOf(stockItem);
-            // this.stockItems.splice(stockItemIndex, 1);
             this.deleteStockItem$(stockItemId);
         }
-        // this.onStockItemsChanged.next(this.stockItems);
         this.getStockItems(0); //custom added
         this.deselectStockItems();
     }

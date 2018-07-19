@@ -1,0 +1,88 @@
+<div fxLayout="row" fxLayoutAlign="end center">
+    <input hidden type="file" id="fileupload" #fileInput ng2FileSelect [style.display]="'none'" [uploader]="uploader" (change)="fileInput.value=''"
+        multiple />
+    <button class="ctrl-button" mat-raised-button color="primary" aria-label="Browse Files" [disabled]="pageType == 'new'" (click)="fileInput.click()">
+        Upload with Cloudinary
+    </button>
+    <button class="ctrl-button" mat-raised-button color="primary" aria-label="Browse Files" [disabled]="pageType == 'new'" (click)="onSaveSelected(selection.selected)">
+        Save Selected
+    </button>
+    <button class="ctrl-button" mat-raised-button color="primary" aria-label="Browse Files" [disabled]="pageType == 'new'" (click)="onDeleteSelected($event)">
+        Delete Selected
+    </button>
+</div>
+
+<table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+    <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> File Name </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.file.name}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="size">
+        <th mat-header-cell *matHeaderCellDef> File Size </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.file.size}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> File Type </th>
+        <td mat-cell *matCellDef="let element">
+            {{element.file.type}}
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="!element.status">In progress</span>
+            <div *ngIf="element.status">status code {{element.status}}</div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="progress">
+        <th mat-header-cell *matHeaderCellDef> Progress </th>
+        <td mat-cell *matCellDef="let element">
+            <mat-progress-bar mode="determinate" [value]="element.progress"></mat-progress-bar>
+        </td>
+    </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <div class="cloudinary-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <div class="cloudinary-element-diagram">
+                    <img src="{{element.data.url}}" alt="No Photo Available">
+                </div>
+                <div class="cloudinary-element-description">
+                    <table *ngIf="element.data">
+                        <tr *ngFor="let property of getFileProperties(element.data)">
+                            <td> {{ property.key }} </td>
+                            <td> {{ property.value | json}} </td>
+                        </tr>
+                    </table>
+                    <span class="cloudinary-element-description-attribution"> -- Cloudinary </span>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="cloudinary-element-row" [class.cloudinary-expanded-row]="expandedElement === element"
+        (click)="expandedElement = element">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="cloudinary-detail-row"></tr>
+</table>

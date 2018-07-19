@@ -56,9 +56,10 @@ import { StockGroupsService } from './stock-groups/stock-groups.service';
 import { StockHoldingComponent } from './stock-item/stock-holding/stock-holding.component';
 import { PackagingComponent } from './stock-item/packaging/packaging.component';
 import { StockImageComponent } from './stock-item/stock-image/stock-image.component';
-import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+// import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-​
+​import { PxCloudinaryModule } from '@fuse/components';
+
 const routes: Routes = [
   {
     path: 'stock-items',
@@ -127,6 +128,7 @@ const routes: Routes = [
     NgxDatatableModule,
     FuseSharedModule,
     FuseConfirmDialogModule,
+    PxCloudinaryModule
   ],
   declarations: [
     PxEcommerceStockItemsComponent,
@@ -150,7 +152,7 @@ const routes: Routes = [
     StockHoldingComponent,
     PackagingComponent,
     StockImageComponent,
-    FileSelectDirective
+    // FileSelectDirective
   ],
   providers: [
     EcommerceStockItemsService,

@@ -4,11 +4,11 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/ma
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { ResetPasswordComponent } from 'app/main/pages/authentication/reset-password/reset-password.component';
+import { ResetPasswordComponent } from 'app/main/authentication/reset-password/reset-password.component';
 
 const routes = [
     {
-        path     : 'auth/reset-password',
+        path     : 'reset-password',
         component: ResetPasswordComponent
     }
 ];

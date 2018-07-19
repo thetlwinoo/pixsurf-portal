@@ -31,6 +31,7 @@ export class StockItem {
     photo: string;
     customFields: string;
     tags: string[];
+    images: any[];
     searchDetails: string;
     lastEditedBy: string;
     validFrom: string;
@@ -66,6 +67,7 @@ export class StockItem {
         this.photo = stockItem.photo || '';
         this.customFields = stockItem.customFields || '';
         this.tags = stockItem.tags || [];
+        this.images = stockItem.images || [];
         this.searchDetails = stockItem.searchDetails || '';
         this.lastEditedBy = stockItem.lastEditedBy || '';
         this.validFrom = stockItem.validFrom || new Date('2018-01-01 00:00:00.0000000');

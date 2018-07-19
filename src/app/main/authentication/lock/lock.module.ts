@@ -1,33 +1,33 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
 
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { LoginComponent } from 'app/main/pages/authentication/login/login.component';
+import { LockComponent } from 'app/main/authentication/lock/lock.component';
 
 const routes = [
     {
-        path     : 'auth/login',
-        component: LoginComponent
+        path     : 'lock',
+        component: LockComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        LoginComponent
+        LockComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
 
         MatButtonModule,
-        MatCheckboxModule,
         MatFormFieldModule,
+        MatIconModule,
         MatInputModule,
 
         FuseSharedModule
     ]
 })
-export class LoginModule
+export class LockModule
 {
 }

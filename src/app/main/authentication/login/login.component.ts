@@ -7,9 +7,9 @@ import { fuseAnimations } from '@fuse/animations';
 import { Router } from '@angular/router';
 import { Feathers } from '@fuse/services/partials/feathers.service';
 import { PxNotification } from '@fuse/services/notification.service';
-import { Store, select } from '@ngrx/store';
-import * as fromAuth from '@fuse/ngrx/auth/reducers';
-import * as Auth from '@fuse/ngrx/auth/actions/auth';
+// import { Store, select } from '@ngrx/store';
+// import * as fromAuth from '@fuse/ngrx/auth/reducers';
+// import * as Auth from '@fuse/ngrx/auth/actions/auth';
 import { Observable } from 'rxjs/Observable';
 import { PeopleService } from '@fuse/services/partials/people.service';
 
@@ -22,8 +22,8 @@ import { PeopleService } from '@fuse/services/partials/people.service';
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     loginFormErrors: any;
-    loggedin$: Observable<boolean>;
-    loginError$: Observable<any>;
+    // loggedin$: Observable<boolean>;
+    // loginError$: Observable<any>;
     /**
      * Constructor
      *
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
-        private _Store: Store<fromAuth.State>,
+        // private _Store: Store<fromAuth.State>,
         private _Feathers: Feathers,
         private _Router: Router,
         private _PxNoti: PxNotification,
@@ -138,7 +138,7 @@ export class LoginComponent implements OnInit {
             .then((res) => {
                 this.people.peoples$().subscribe(people => {
                     this.people.onPeopleDataChanged.next(people[0]);
-                })
+                });
                 this._Router.navigate(['/']);
             })
             .catch(err => {
