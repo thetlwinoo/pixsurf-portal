@@ -29,6 +29,7 @@ export class StockItem {
     marketingComments: string;
     internalComments: string;
     photo: string;
+    gravatar: string;
     customFields: string;
     tags: string[];
     images: any[];
@@ -65,6 +66,7 @@ export class StockItem {
         this.marketingComments = stockItem.marketingComments || '';
         this.internalComments = stockItem.internalComments || '';
         this.photo = stockItem.photo || '';
+        this.gravatar = stockItem.gravatar || '';
         this.customFields = stockItem.customFields || '';
         this.tags = stockItem.tags || [];
         this.images = stockItem.images || [];

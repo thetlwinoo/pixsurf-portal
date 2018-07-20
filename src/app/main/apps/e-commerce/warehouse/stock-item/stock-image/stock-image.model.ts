@@ -27,6 +27,6 @@ export class Photo {
         this.isSmallImage = photo.isSmallImage || false;
         this.isThumbnail = photo.isThumbnail || false;
         this.exclude = photo.exclude || false;  
-        this.url = photo.url || '';
+        this.url = photo.url || '';        
     }    
 }

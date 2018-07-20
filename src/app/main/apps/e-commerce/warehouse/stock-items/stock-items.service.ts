@@ -117,7 +117,7 @@ export class EcommerceStockItemsService implements Resolve<any>
         console.log('skip',skip)
         return (<any>this.feathers
             .service('warehouse/stock-items'))
-            .watch()
+            .watch({ listStrategy: 'always' })
             .find({
                 query: {
                     $limit: 10,
