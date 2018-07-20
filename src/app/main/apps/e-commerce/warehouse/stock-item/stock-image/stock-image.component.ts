@@ -4,14 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
 import { EcommerceStockItemService } from '../stock-item.service';
+import { CloudinaryService } from '@fuse/components/cloudinary/cloudinary.service';
 import { DataSource } from '@angular/cdk/collections';
 // import { FileUploader } from 'ng2-file-upload';
 import { fuseAnimations } from '@fuse/animations';
 // const URL = 'https://pixsurf-api.herokuapp.com/uploads/';
 import { Subscription } from 'rxjs/Subscription';
-import { Image } from './stock-image.model';
+import { Photo } from './stock-image.model';
 import { HttpClient } from '@angular/common/http';
-import { FileUploader } from 'ng2-file-upload';
+// import { FileUploader } from 'ng2-file-upload';
 import { SelectionModel } from '@angular/cdk/collections';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -26,12 +27,9 @@ export class StockImageComponent implements OnInit {
   @ViewChild('filePreview') filePreview: ElementRef;
   @Input() pageType;
   @Input() stockItem;
-  @Input('group')  
+  @Input('group')
   public stockItemImageForm: FormGroup;
   fileUploadControl: FormControl = new FormControl();
-  public uploader: FileUploader = new FileUploader({ url: 'https://pixsurf-api.herokuapp.com/media' });
-  // public uploader: FileUploader = new FileUploader({ url: URL });
-  // public hasBaseDropZoneOver: boolean = false;
   onImagesChangedSubscription: Subscription;
   images: any;
   previewImage: any;
@@ -39,7 +37,7 @@ export class StockImageComponent implements OnInit {
   selectedFileName: string;
   fileToUpload: File = null;
   dataSource: FilesDataSource | null;
-  displayedColumns = ['select', 'path', 'name', 'sortOrder', 'isBaseImage', 'isSmallImage', 'isThumbnail', 'exclude'];
+  displayedColumns = ['select', 'url', 'name', 'sortOrder', 'isBaseImage', 'isSmallImage', 'isThumbnail', 'exclude'];
   selectedBaseImage: any;
   selectedSmallImage: any;
   selectedThumbnail: any;
@@ -50,6 +48,7 @@ export class StockImageComponent implements OnInit {
 
   constructor(
     private stockImageService: EcommerceStockItemService,
+    private cloudinary: CloudinaryService,
     private http: HttpClient,
   ) {
     this.onImagesChangedSubscription =
@@ -123,31 +122,28 @@ export class StockImageComponent implements OnInit {
     }
   }
 
-  onSaveFiles() {
-    this.selectedFiles.forEach(file => {
-      var reader = new FileReader();
-      reader.readAsDataURL(file); // read file as data url
+  onSaveFiles(event) {
+    event.forEach((file, index) => {
+      const _url = file.data.url;
+      const _file = {
+        name: file.file.name,
+        size: file.file.size,
+        type: file.file.type
+      };
 
-      reader.onload = (event: any) => { // called once readAsDataURL is completed.
-        var image = new Image({
-          size: file.size,
-          name: file.name,
-          type: file.type,
-          stockItemId: this.stockItem.id,
-          lastModified: file.lastModified,
-          webkitRelativePath: file.webkitRelativePath,
-          uri: event.target.result
-        });
+      var photo = new Photo({
+        url: _url,
+        data: file.data,
+        file: _file,
+        stockItemId: this.stockItem.id,
+        sortOrder: 0
+      });
 
-        this.stockImageService.addImage(image, this.stockItem.id)
-          .then((res) => {
-            // Trigger the subscription with new data
-            // this.stockImageService.onImagesChanged.next(res);            
-            // this.stockImageService.getImages(this.stockItem.id,false,false,true);
-          });
-        this.removeFile(file);
-      }
-    });
+      this.stockImageService.addImage(photo, this.stockItem.id);
+      // this.removeFile(file);
+      // this.cloudinary.removeResponse(index);
+      this.cloudinary.removeResponse(file.data.public_id);
+    });    
   }
 
   resetUpload(event) {
@@ -156,18 +152,16 @@ export class StockImageComponent implements OnInit {
   }
 
   removeFile(file) {
-    const index = this.selectedFiles.findIndex(x => x.name == file.name);
-    if (index >= 0) {
-      this.selectedFiles.splice(index, 1);
-    }
+    // const index = this.selectedFiles.findIndex(x => x.name == file.name);
+    // if (index >= 0) {
+    //   this.selectedFiles.splice(index, 1);
+    // }
   }
 
   onSaveImage(event) {
-    console.log('Save', event);
-    // this.images.forEach(image => {
-    //   this.stockImageService.saveImage(image._id,image);
-
-    // })
+    this.images.forEach(image => {
+      this.stockImageService.saveImage(image._id, image);
+    });
   }
 
   onRemoveImage(event) {
@@ -180,7 +174,7 @@ export class StockImageComponent implements OnInit {
     });
 
     if (!error) {
-      // this.stockImageService.getImages(this.stockItem.id,false,false,true);
+      this.stockImageService.getImages(this.stockItem.id);
       this.selection.clear();
     }
   }

@@ -63,6 +63,7 @@ export class PxEcommerceStockItemsComponent implements OnInit, OnDestroy {
             //     });
             // });
             this.stockItemsService.onStockItemsChanged.subscribe(pagedData => {
+                console.log(pagedData.data)
                 this.page = pagedData.page;
                 this.rows = pagedData.data;
             });
@@ -88,8 +89,9 @@ export class PxEcommerceStockItemsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        console.log('init')
         // this.setPage({ offset: 0 });
-        this.displayedColumns = [{ cellTemplate: this.editTmpl, name: 'stockItemName' }, { name: 'unitPrice' }, { name: 'recommendedRetailPrice' }, { name: 'typicalWeightPerUnit' }];
+        this.displayedColumns = [{ cellTemplate: this.editTmpl, name: 'preview', flexGrow: 1 }, { name: 'stockItemName', flexGrow: 3 }, { name: 'unitPrice', flexGrow: 1 }, { name: 'recommendedRetailPrice', flexGrow: 1 }];
     }
 
     onSelectedChange(id) {

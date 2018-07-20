@@ -39,73 +39,13 @@
 
         <!-- CONTENT CARD -->
         <div class="content-card mat-white-bg">
-            <ngx-datatable class="material" [rows]="rows" [columns]="displayedColumns" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+            <ngx-datatable class="material" [rows]="rows" [columns]="displayedColumns" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
                 [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
                 (page)='setPage($event)' [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
             </ngx-datatable>
             <ng-template #editTmpl let-row="row" let-value="value">
-                <!-- <img width="150" src="{{row.images[0]}}" /> -->
+                <img width="60" src="{{row.gravatar}}" />
             </ng-template>
-            <!-- <mat-table class="products-table" #table [dataSource]="dataSource" matSort [@animateStagger]="{value:'50'}" fusePerfectScrollbar>
-
-        <ng-container cdkColumnDef="checkbox">
-          <mat-header-cell *cdkHeaderCellDef></mat-header-cell>
-          <mat-cell *cdkCellDef="let stockItem">
-            <mat-checkbox [disableRipple]="true" [(ngModel)]="checkboxes[stockItem._id]" (ngModelChange)="onSelectedChange(stockItem._id)"
-              (click)="$event.stopPropagation()">
-            </mat-checkbox>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container cdkColumnDef="stockItemName">
-          <mat-header-cell *cdkHeaderCellDef mat-sort-header>Name</mat-header-cell>
-          <mat-cell *cdkCellDef="let stockItem">
-            <p class="text-truncate">{{stockItem.stockItemName}}</p>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container cdkColumnDef="unitPrice">
-          <mat-header-cell *cdkHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Unit Price</mat-header-cell>
-          <mat-cell *cdkCellDef="let stockItem" fxHide fxShow.gt-xs>
-            <p class="price text-truncate">
-              {{stockItem.unitPrice | currency:'USD':'symbol'}}
-            </p>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container cdkColumnDef="recommendedRetailPrice">
-          <mat-header-cell *cdkHeaderCellDef mat-sort-header fxHide fxShow.gt-xs>Recommended Retail Price</mat-header-cell>
-          <mat-cell *cdkCellDef="let stockItem" fxHide fxShow.gt-xs>
-            <p class="price text-truncate">
-              {{stockItem.recommendedRetailPrice | currency:'USD':'symbol'}}
-            </p>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container cdkColumnDef="typicalWeightPerUnit">
-          <mat-header-cell *cdkHeaderCellDef mat-sort-header fxHide fxShow.gt-sm>Typical Weight Per Unit</mat-header-cell>
-          <mat-cell *cdkCellDef="let stockItem" fxHide fxShow.gt-sm>
-
-            <span class="quantity-indicator text-truncate" [ngClass]="{'mat-red-500-bg':stockItem.typicalWeightPerUnit <= 5, 'mat-amber-500-bg':stockItem.typicalWeightPerUnit > 5 && stockItem.typicalWeightPerUnit <= 25,'mat-green-600-bg':stockItem.typicalWeightPerUnit > 25}">
-            </span>
-            <span>
-              {{stockItem.typicalWeightPerUnit}}
-            </span>
-
-          </mat-cell>
-        </ng-container>
-
-        <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
-
-        <mat-row *cdkRowDef="let stockItem; columns: displayedColumns;" class="product" [ngClass]="{'mat-light-blue-50-bg':checkboxes[stockItem._id]}"
-          matRipple [routerLink]="'/apps/e-commerce/warehouse/stock-items/'+stockItem._id" [@animate]="{value:'*',params:{y:'100%'}}">
-        </mat-row>
-
-      </mat-table>
-
-      <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
-      </mat-paginator> -->
-
         </div>
         <!-- / CONTENT CARD -->
     </div>

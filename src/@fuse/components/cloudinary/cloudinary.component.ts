@@ -140,6 +140,7 @@ export class CloudinaryComponent implements OnInit, OnDestroy {
         this.http.post(url, body, options).subscribe(response => {
             console.log(`Deleted image - ${data.public_id} ${response.result}`);
             this.responses.splice(index, 1);
+            this.cloudinaryService.onResponseChanged.next(this.responses);
         });
     };
 
@@ -157,10 +158,20 @@ export class CloudinaryComponent implements OnInit, OnDestroy {
 
     onSaveSelected(event) {
         this.onSave.emit(event);
+        this.selection.clear();
     }
 
     onDeleteSelected(event) {
 
+    }
+
+    removeResponse(index) {
+        this.responses.splice(index, 1);
+        this.cloudinaryService.onResponseChanged.next(this.responses);
+    }
+
+    clearResponses() {
+        this.cloudinaryService.onResponseChanged.next(false);
     }
 
     ngOnDestroy() {

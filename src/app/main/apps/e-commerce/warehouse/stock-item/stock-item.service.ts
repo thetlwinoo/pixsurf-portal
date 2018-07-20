@@ -15,7 +15,7 @@ import { StockItem } from './stock-item.model';
 // import * as Auth from '@fuse/ngrx/auth/actions/auth';
 // import { User } from '@fuse/ngrx/auth/models';
 import { PeopleService } from '@fuse/services/partials/people.service';
-import { Image } from './stock-image/stock-image.model';
+import { Photo } from './stock-image/stock-image.model';
 import { environment } from 'environments/environment';
 
 @Injectable()
@@ -71,7 +71,7 @@ export class EcommerceStockItemService implements Resolve<any>
         this.getPackageTypes(),
         this.getStockGroups(),
         this.getAuthenticatedPeople(),
-        // this.getImages(this.routeParams.id,false,false,true)
+        this.getImages(this.routeParams.id)
       ]).then(
         () => {
           resolve();
@@ -262,41 +262,33 @@ export class EcommerceStockItemService implements Resolve<any>
   }
   //end feathers API
 
-  // getImages(stockItemId, isBaseImage, isSmallImage, isThumbnail): Promise<any> {
-  //   return new Promise((resolve, reject) => {
-  //     this.images$(stockItemId, isBaseImage, isSmallImage, isThumbnail)
-  //       .subscribe((response: any) => {
-  //         this.images = response;
-  //         this.images.map(image => {
-  //           this.http.get(this.api_base + "media?filename=" + image.fileName).subscribe((res: any) => {
-  //             if (res.error) {
-  //               image.uri = null;
-  //             } else {
-  //               image.uri = res;
-  //             }
-  //           })
-  //         })
-  //         this.onImagesChanged.next(response);
-  //         resolve(response);
-  //       }, reject);
-  //   });
-  // }
-
-  saveImage(id, image) {
+  getImages(stockItemId): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.saveImage$(id, image)
+      this.images$(stockItemId)
         .subscribe((response: any) => {
-          // this.getImages(response.stockItemId,false,false,true);
+          this.images = response;
+          console.log('RRRRRRRRRR',stockItemId,response)
+          this.onImagesChanged.next(response);
           resolve(response);
         }, reject);
     });
   }
 
-  addImage(image, id) {
+  saveImage(id, image) {
+    return new Promise((resolve, reject) => {
+      this.saveImage$(id, image)
+        .subscribe((response: any) => {
+          resolve(response);
+        }, reject);
+    });
+  }
+
+  addImage(image,id) {
+    console.log('Image',image)
     return new Promise((resolve, reject) => {
       this.addImage$(image)
         .subscribe((response: any) => {
-          // this.getImages(id);
+          this.getImages(id);
           resolve(response);
         }, reject);
     });
@@ -306,27 +298,23 @@ export class EcommerceStockItemService implements Resolve<any>
     return new Promise((resolve, reject) => {
       this.removeImage$(id)
         .subscribe((response: any) => {
-          // this.getImages(id);
           resolve(response);
         }, reject);
     });
   }
 
   //feathers API
-  private images$(stockItemId, isBaseImage, isSmallImage, isThumbnail): Observable<any> {
+  private images$(stockItemId): Observable<any> {
     if (stockItemId == 'new') return Observable.of([]);
     else
       return (<any>this.feathers
-        .service('general/images'))
+        .service('general/photos'))
         .watch()
         .find(
           {
             query: {
-              $limit: 3,
-              "stockItemId": stockItemId,
-              "isBaseImage": isBaseImage,
-              "isSmallImage": isSmallImage,
-              "isThumbnail": isThumbnail
+              $limit: 20,
+              "stockItemId": stockItemId
             }
           }
         )
@@ -340,7 +328,7 @@ export class EcommerceStockItemService implements Resolve<any>
 
     return Observable.fromPromise(
       this.feathers
-        .service('general/images')
+        .service('general/photos')
         .create(data)
         .then(res => res)
         .catch(err => err));
@@ -351,13 +339,13 @@ export class EcommerceStockItemService implements Resolve<any>
       return;
     }
     return Observable.fromPromise(this.feathers
-      .service('general/images')
+      .service('general/photos')
       .update(id, data));
   }
 
   private removeImage$(id: string): Observable<any> {
     return Observable.fromPromise(this.feathers
-      .service('general/images')
+      .service('general/photos')
       .remove(id));
   }
   //end feathers API

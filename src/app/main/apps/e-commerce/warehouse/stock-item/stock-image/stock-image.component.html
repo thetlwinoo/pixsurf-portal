@@ -22,18 +22,18 @@
           </mat-cell>
         </ng-container>
 
-        <ng-container cdkColumnDef="path">
+        <ng-container cdkColumnDef="url">
           <mat-header-cell *cdkHeaderCellDef>Image</mat-header-cell>
           <mat-cell *cdkCellDef="let row">
-            <img class="stock-item-image" *ngIf="row.avatar" alt="No Photo Available" src="{{row.avatar}}" />
-            <img *ngIf="!row.avatar" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
+            <img class="stock-item-image" *ngIf="row.data.url" alt="No Photo Available" src="{{row.data.url}}" />
+            <img *ngIf="!row.data.url" [src]="'assets/images/ecommerce/product-image-placeholder.png'">
           </mat-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="name">
           <mat-header-cell *cdkHeaderCellDef>Label</mat-header-cell>
           <mat-cell *cdkCellDef="let row">
-            <p class="text-truncate">{{row.name}}</p>
+            <p class="text-truncate">{{row.data.original_filename}}.{{row.data.format}}</p>
           </mat-cell>
         </ng-container>
 
@@ -89,33 +89,4 @@
   </mat-chip>
 </mat-chip-list>
 <hr>
-<cloudinary [stockItem]="stockItem" (onSave)="onSaveImage($event)"></cloudinary>
-<!-- <div [formGroup]="rowImageForm" id="stock-image">
-  <mat-form-field class="w-100-p" fxlayout="row">
-    <input matInput type="text" name="photo" placeholder="photo" formControlName="photo" />
-  </mat-form-field>
-
-  <div class="py-16" fxLayout="row">
-    <mat-form-field class="w-100-p">
-      <input hidden type="file" #fileInput (change)="onSelectFile($event)" />
-      <input matInput type="text" name="photo" placeholder="Select Image..." [formControl]="fileUploadControl" [(ngModel)]="selectedFileName"
-      />
-      <button mat-button matSuffix mat-icon-button aria-label="Browse" (click)="fileInput.click()">
-        <mat-icon>image_search</mat-icon>
-      </button>
-    </mat-form-field>
-
-    <div class="upload w-100-p" fxLayout="row" fxLayoutAlign="start center">
-      <button mat-raised-button color="warn" [disabled]="!previewImage">Upload</button>
-    </div>
-
-    <div class="upload w-100-p" fxLayout="row" fxLayoutAlign="start center">
-      <button mat-raised-button color="primary" [disabled]="!previewImage" (click)="resetUpload($event)">Reset</button>
-    </div>
-  </div>
-
-
-  <div *ngIf="previewImage" class="product-image" fxlayout="row" fxLayoutAlign="center center">
-    <img class="media" [src]="previewImage">
-  </div>
-</div> -->
+<cloudinary [stockItem]="stockItem" (onSave)="onSaveFiles($event)"></cloudinary>

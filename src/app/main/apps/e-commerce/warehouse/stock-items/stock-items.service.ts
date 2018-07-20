@@ -27,8 +27,7 @@ export class EcommerceStockItemsService implements Resolve<any>
      * @param {RouterStateSnapshot} state
      * @returns {Observable<any> | Promise<any> | any}
      */
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {            
         return new Promise((resolve, reject) => {
 
             Promise.all([
@@ -42,7 +41,7 @@ export class EcommerceStockItemsService implements Resolve<any>
         });
     }
 
-    getStockItems(skip): Promise<any> {
+    getStockItems(skip): Promise<any> {        
         return new Promise((resolve, reject) => {
             this.stockItems$(skip)
                 .subscribe((response: any) => {
@@ -51,7 +50,7 @@ export class EcommerceStockItemsService implements Resolve<any>
                     // this.stockItems.forEach(element=>{
                         
                     // });
-
+                    console.log('RESOLVEEEEE',this.stockItems)
                     this.onStockItemsChanged.next(this.stockItems);
                     resolve(response);
                 }, reject);
@@ -115,6 +114,7 @@ export class EcommerceStockItemsService implements Resolve<any>
 
     //feathers API
     stockItems$(skip): Observable<any[]> {
+        console.log('skip',skip)
         return (<any>this.feathers
             .service('warehouse/stock-items'))
             .watch()

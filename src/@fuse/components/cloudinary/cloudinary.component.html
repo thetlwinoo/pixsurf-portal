@@ -7,7 +7,7 @@
     <button class="ctrl-button" mat-raised-button color="primary" aria-label="Browse Files" [disabled]="pageType == 'new'" (click)="onSaveSelected(selection.selected)">
         Save Selected
     </button>
-    <button class="ctrl-button" mat-raised-button color="primary" aria-label="Browse Files" [disabled]="pageType == 'new'" (click)="onDeleteSelected($event)">
+    <button class="ctrl-button" mat-raised-button color="primary" aria-label="Browse Files" [disabled]="false" (click)="onDeleteSelected($event)">
         Delete Selected
     </button>
 </div>
