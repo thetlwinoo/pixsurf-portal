@@ -41,7 +41,7 @@
         <div class="content-card mat-white-bg">
             <ngx-datatable class="material" [rows]="rows" [columns]="displayedColumns" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50"
                 [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
-                (page)='setPage($event)' [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'>
+                (page)='setPage($event)' [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)' #stockItemTable>
             </ngx-datatable>
             <ng-template #editTmpl let-row="row" let-value="value">
                 <img width="60" src="{{row.gravatar}}" />

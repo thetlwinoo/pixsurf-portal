@@ -53,7 +53,6 @@ export class StockImageComponent implements OnInit {
   ) {
     this.onImagesChangedSubscription =
       this.stockImageService.onImagesChanged.subscribe(images => {
-        console.log(images)
         this.images = images;
       });
   }
